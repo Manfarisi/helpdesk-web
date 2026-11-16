@@ -1,1 +1,23 @@
 @import "tailwindcss";
+
+@theme {
+  /* Sidebar */
+  --color-sidebar: #0f2849;
+  --color-sidebar-hover: #17375f;
+  --color-sidebar-active: #2563b8;
+  --color-sidebar-border: #27456f;
+
+  /* Aksen dan permukaan */
+  --color-brand: #2563b8;
+  --color-brand-hover: #1d4f96;
+  --color-canvas: #edf1f6;
+  --color-tint: #e9f1fb;
+  --color-line: #d8dfe9;
+
+  /* Teks */
+  --color-ink: #17263a;
+  --color-muted: #5f6f84;
+
+  --font-sans: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "Cascadia Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+}

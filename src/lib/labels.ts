@@ -1,4 +1,5 @@
 import type { TicketPriority, TicketStatus } from '../types/api'
+import type { SlaTone } from './sla'
 
 export const statusLabel: Record<TicketStatus, string> = {
   new: 'Baru',
@@ -10,14 +11,15 @@ export const statusLabel: Record<TicketStatus, string> = {
   cancelled: 'Dibatalkan',
 }
 
-export const statusStyle: Record<TicketStatus, string> = {
-  new: 'bg-sky-100 text-sky-800',
-  open: 'bg-indigo-100 text-indigo-800',
-  in_progress: 'bg-violet-100 text-violet-800',
-  pending: 'bg-amber-100 text-amber-800',
-  resolved: 'bg-emerald-100 text-emerald-800',
-  closed: 'bg-slate-200 text-slate-700',
-  cancelled: 'bg-slate-100 text-slate-500',
+// Titik kecil berwarna di samping nama status.
+export const statusDot: Record<TicketStatus, string> = {
+  new: 'bg-sky-500',
+  open: 'bg-indigo-500',
+  in_progress: 'bg-violet-500',
+  pending: 'bg-amber-500',
+  resolved: 'bg-emerald-500',
+  closed: 'bg-slate-400',
+  cancelled: 'bg-slate-300',
 }
 
 export const priorityLabel: Record<TicketPriority, string> = {
@@ -27,9 +29,25 @@ export const priorityLabel: Record<TicketPriority, string> = {
   urgent: 'Mendesak',
 }
 
-export const priorityStyle: Record<TicketPriority, string> = {
-  low: 'bg-slate-100 text-slate-600',
-  medium: 'bg-sky-100 text-sky-800',
-  high: 'bg-orange-100 text-orange-800',
-  urgent: 'bg-red-100 text-red-800',
+// Penomoran P1 (paling mendesak) sampai P4, seperti di konsol help desk umumnya.
+export const priorityRank: Record<TicketPriority, number> = {
+  urgent: 1,
+  high: 2,
+  medium: 3,
+  low: 4,
+}
+
+export const priorityText: Record<TicketPriority, string> = {
+  urgent: 'font-semibold text-red-700',
+  high: 'font-medium text-orange-700',
+  medium: 'text-ink',
+  low: 'text-muted',
+}
+
+export const slaToneClass: Record<SlaTone, string> = {
+  danger: 'font-semibold text-red-700',
+  warning: 'font-semibold text-amber-700',
+  ok: 'text-emerald-700',
+  muted: 'text-muted',
+  normal: 'text-ink',
 }
