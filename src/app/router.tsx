@@ -1,4 +1,8 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom'
+import { AdminAuditPage } from '../pages/AdminAuditPage'
+import { AdminCategoriesPage } from '../pages/AdminCategoriesPage'
+import { AdminSlaPage } from '../pages/AdminSlaPage'
+import { AdminUsersPage } from '../pages/AdminUsersPage'
 import { DashboardPage } from '../pages/DashboardPage'
 import { EditArticlePage } from '../pages/EditArticlePage'
 import { KbArticlePage } from '../pages/KbArticlePage'
@@ -35,6 +39,16 @@ export const router = createBrowserRouter([
               { path: 'kb/new', element: <NewArticlePage /> },
               { path: 'kb/:slug/edit', element: <EditArticlePage /> },
               { path: 'dashboard', element: <DashboardPage /> },
+            ],
+          },
+          {
+            element: <RequireRole roles={['admin']} />,
+            children: [
+              { path: 'admin', element: <Navigate to="/admin/users" replace /> },
+              { path: 'admin/users', element: <AdminUsersPage /> },
+              { path: 'admin/categories', element: <AdminCategoriesPage /> },
+              { path: 'admin/sla', element: <AdminSlaPage /> },
+              { path: 'admin/audit', element: <AdminAuditPage /> },
             ],
           },
           { path: '*', element: <NotFoundPage /> },

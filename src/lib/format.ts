@@ -66,6 +66,24 @@ export function formatDuration(minutes: number | null): string {
 }
 
 /**
+ * Menit jadi kalimat utuh: "1 hari 2 jam", "1 jam 30 menit", "45 menit".
+ */
+export function formatMinutes(total: number): string {
+  if (total <= 0) return '0 menit'
+
+  const days = Math.floor(total / 1440)
+  const hours = Math.floor((total % 1440) / 60)
+  const minutes = total % 60
+  const parts: string[] = []
+
+  if (days > 0) parts.push(`${days} hari`)
+  if (hours > 0) parts.push(`${hours} jam`)
+  if (minutes > 0) parts.push(`${minutes} menit`)
+
+  return parts.join(' ')
+}
+
+/**
  * Inisial untuk avatar: huruf pertama nama depan dan nama belakang.
  */
 export function initials(name: string): string {

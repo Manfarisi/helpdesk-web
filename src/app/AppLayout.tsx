@@ -1,4 +1,14 @@
-import { BookOpen, LayoutDashboard, LogOut, Ticket, type LucideIcon } from 'lucide-react'
+import {
+  BookOpen,
+  LayoutDashboard,
+  LogOut,
+  ScrollText,
+  Tags,
+  Ticket,
+  Timer,
+  Users,
+  type LucideIcon,
+} from 'lucide-react'
 import { NavLink, Outlet } from 'react-router-dom'
 import { Button } from '../components/ui'
 import { useAuth } from '../features/auth/useAuth'
@@ -27,6 +37,15 @@ const sections: NavSection[] = [
   {
     title: 'Pengetahuan',
     items: [{ to: '/kb', label: 'Knowledge Base', icon: BookOpen }],
+  },
+  {
+    title: 'Administrasi',
+    items: [
+      { to: '/admin/users', label: 'Pengguna', icon: Users, roles: ['admin'] },
+      { to: '/admin/categories', label: 'Kategori', icon: Tags, roles: ['admin'] },
+      { to: '/admin/sla', label: 'Target SLA', icon: Timer, roles: ['admin'] },
+      { to: '/admin/audit', label: 'Audit Log', icon: ScrollText, roles: ['admin'] },
+    ],
   },
 ]
 
