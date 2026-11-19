@@ -18,6 +18,9 @@ export type TicketStatus =
 
 export type TicketPriority = 'low' | 'medium' | 'high' | 'urgent'
 
+// "active" = new, open, in_progress, pending. "finished" = resolved, closed, cancelled.
+export type TicketGroup = 'active' | 'finished'
+
 export interface Category {
   id: number
   name: string
@@ -53,6 +56,15 @@ export interface Ticket {
   updated_at: string
 }
 
+export interface TicketComment {
+  id: number
+  ticket_id: number
+  body: string
+  is_internal: boolean
+  author: User
+  created_at: string
+}
+
 export interface Paginated<T> {
   data: T[]
   meta: {
@@ -61,4 +73,13 @@ export interface Paginated<T> {
     per_page: number
     total: number
   }
+}
+
+export interface TicketListCounts {
+  active: number
+  finished: number
+}
+
+export interface TicketListResponse extends Paginated<Ticket> {
+  counts: TicketListCounts
 }

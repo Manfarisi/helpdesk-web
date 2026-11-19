@@ -1,12 +1,6 @@
 import type { ButtonHTMLAttributes, ReactNode } from 'react'
-
-type ButtonVariant = 'primary' | 'secondary' | 'sidebar'
-
-const buttonVariants: Record<ButtonVariant, string> = {
-  primary: 'bg-brand text-white hover:bg-brand-hover',
-  secondary: 'border border-line bg-white text-ink hover:bg-slate-50',
-  sidebar: 'border border-sidebar-border text-slate-200 hover:bg-sidebar-hover hover:text-white',
-}
+import { Link, type LinkProps } from 'react-router-dom'
+import { buttonClass, type ButtonVariant } from '../lib/styles'
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: ButtonVariant
@@ -18,13 +12,19 @@ export function Button({
   className = '',
   ...props
 }: ButtonProps) {
-  return (
-    <button
-      type={type}
-      className={`inline-flex items-center justify-center gap-2 rounded px-3 py-2 text-sm font-medium disabled:cursor-not-allowed disabled:opacity-60 ${buttonVariants[variant]} ${className}`}
-      {...props}
-    />
-  )
+  return <button type={type} className={`${buttonClass(variant)} ${className}`} {...props} />
+}
+
+interface ButtonLinkProps extends Omit<LinkProps, 'className'> {
+  variant?: ButtonVariant
+  className?: string
+}
+
+/**
+ * Tautan antar halaman yang tampil seperti tombol.
+ */
+export function ButtonLink({ variant = 'primary', className = '', ...props }: ButtonLinkProps) {
+  return <Link className={`${buttonClass(variant)} ${className}`} {...props} />
 }
 
 /**
@@ -43,7 +43,9 @@ export function PageHeader({
   return (
     <header className="flex flex-wrap items-center justify-between gap-3 border-b border-line bg-white px-6 py-3">
       <div className="min-w-0">
-        <h1 className="truncate text-base font-semibold">{title}</h1>
+        <h1 className="truncate text-base font-semibold" title={title}>
+          {title}
+        </h1>
         {subtitle !== undefined && <p className="text-xs text-muted">{subtitle}</p>}
       </div>
       {actions}
@@ -67,5 +69,36 @@ export function Card({
       )}
       <div className="p-4">{children}</div>
     </section>
+  )
+}
+
+/**
+ * Satu kolom form: label, kontrol (input, select, textarea), petunjuk, dan pesan error.
+ */
+export function Field({
+  label,
+  htmlFor,
+  error,
+  hint,
+  children,
+}: {
+  label: string
+  htmlFor: string
+  error?: string
+  hint?: string
+  children: ReactNode
+}) {
+  return (
+    <div>
+      <label htmlFor={htmlFor} className="block text-sm font-medium">
+        {label}
+      </label>
+      <div className="mt-1">{children}</div>
+      {error !== undefined ? (
+        <p className="mt-1 text-sm text-red-600">{error}</p>
+      ) : (
+        hint !== undefined && <p className="mt-1 text-xs text-muted">{hint}</p>
+      )}
+    </div>
   )
 }

@@ -1,4 +1,4 @@
-import type { TicketPriority, TicketStatus } from '../types/api'
+import type { TicketPriority, TicketStatus, UserRole } from '../types/api'
 import type { SlaTone } from './sla'
 
 export const statusLabel: Record<TicketStatus, string> = {
@@ -50,4 +50,10 @@ export const slaToneClass: Record<SlaTone, string> = {
   ok: 'text-emerald-700',
   muted: 'text-muted',
   normal: 'text-ink',
+}
+
+export const roleLabel: Record<UserRole, string> = {
+  admin: 'Admin',
+  agent: 'Agent',
+  requester: 'Requester',
 }
