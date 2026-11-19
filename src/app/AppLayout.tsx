@@ -2,6 +2,7 @@ import { BookOpen, LayoutDashboard, LogOut, Ticket, type LucideIcon } from 'luci
 import { NavLink, Outlet } from 'react-router-dom'
 import { Button } from '../components/ui'
 import { useAuth } from '../features/auth/useAuth'
+import { NotificationBell } from '../features/notifications/NotificationBell'
 import type { UserRole } from '../types/api'
 
 interface NavItem {
@@ -78,7 +79,7 @@ export function AppLayout() {
   return (
     <div className="min-h-screen md:flex">
       {/* Layar kecil: bar atas dengan menu yang bisa digeser. */}
-      <header className="bg-sidebar text-white md:hidden">
+      <header className="relative z-30 bg-sidebar text-white md:hidden">
         <div className="flex items-center justify-between px-4 py-3">
           <div>
             <p className="font-bold leading-tight">Helpdesk</p>
@@ -86,9 +87,12 @@ export function AppLayout() {
               {user.name} · {role.label}
             </p>
           </div>
-          <Button variant="sidebar" onClick={signOut} aria-label="Keluar">
-            <LogOut className="size-4" aria-hidden="true" />
-          </Button>
+          <div className="flex items-center gap-2">
+            <NotificationBell />
+            <Button variant="sidebar" onClick={signOut} aria-label="Keluar">
+              <LogOut className="size-4" aria-hidden="true" />
+            </Button>
+          </div>
         </div>
         <nav className="flex gap-1 overflow-x-auto px-3 pb-3">
           {visibleSections
@@ -100,10 +104,13 @@ export function AppLayout() {
       </header>
 
       {/* Layar lebar: sidebar tetap di kiri. */}
-      <aside className="hidden bg-sidebar text-white md:sticky md:top-0 md:flex md:h-screen md:w-64 md:shrink-0 md:flex-col">
-        <div className="border-b border-sidebar-border px-4 py-4">
-          <p className="text-lg font-bold">Helpdesk</p>
-          <p className="text-xs text-slate-300">Service Desk Console</p>
+      <aside className="hidden bg-sidebar text-white md:sticky md:top-0 md:z-30 md:flex md:h-screen md:w-64 md:shrink-0 md:flex-col">
+        <div className="flex items-center justify-between border-b border-sidebar-border px-4 py-4">
+          <div>
+            <p className="text-lg font-bold">Helpdesk</p>
+            <p className="text-xs text-slate-300">Service Desk Console</p>
+          </div>
+          <NotificationBell />
         </div>
 
         <nav className="flex-1 overflow-y-auto px-3 py-4">
