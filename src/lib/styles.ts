@@ -1,8 +1,9 @@
-export type ButtonVariant = 'primary' | 'secondary' | 'sidebar'
+export type ButtonVariant = 'primary' | 'secondary' | 'danger' | 'sidebar'
 
 const buttonVariants: Record<ButtonVariant, string> = {
   primary: 'bg-brand text-white hover:bg-brand-hover',
   secondary: 'border border-line bg-white text-ink hover:bg-slate-50',
+  danger: 'bg-red-600 text-white hover:bg-red-700',
   sidebar: 'border border-sidebar-border text-slate-200 hover:bg-sidebar-hover hover:text-white',
 }
 

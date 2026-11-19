@@ -1,11 +1,13 @@
-import { useState, type FormEvent, type ReactNode } from 'react'
+import { useState, type FormEvent } from 'react'
 import { ArrowLeft } from 'lucide-react'
 import { useParams } from 'react-router-dom'
 import { InlineError, Spinner } from '../components/feedback'
-import { PriorityLabel, StatusLabel } from '../components/ticket-parts'
+import { DetailRow, PriorityLabel, StatusLabel } from '../components/ticket-parts'
 import { Button, ButtonLink, Card, PageHeader } from '../components/ui'
 import { useAuth } from '../features/auth/useAuth'
+import { HistoryCard } from '../features/tickets/HistoryCard'
 import { useAddComment, useComments, useTicket } from '../features/tickets/hooks'
+import { WorkflowCard } from '../features/tickets/WorkflowCard'
 import { ApiError } from '../lib/api'
 import { describeError } from '../lib/error'
 import { formatDateTime, initials } from '../lib/format'
@@ -35,27 +37,6 @@ function canComment(user: User, ticket: Ticket): boolean {
   if (user.role === 'agent') return ticket.assignee?.id === user.id
 
   return ticket.requester.id === user.id
-}
-
-function DetailRow({
-  label,
-  children,
-  wide = false,
-}: {
-  label: string
-  children: ReactNode
-  wide?: boolean
-}) {
-  return (
-    <div
-      className={`flex items-baseline justify-between gap-4 border-b border-line py-2 text-sm last:border-b-0 ${
-        wide ? 'sm:col-span-2' : ''
-      }`}
-    >
-      <dt className="shrink-0 text-muted">{label}</dt>
-      <dd className="min-w-0 text-right font-medium [overflow-wrap:anywhere]">{children}</dd>
-    </div>
-  )
 }
 
 function CommentItem({ comment, ticket }: { comment: TicketComment; ticket: Ticket }) {
@@ -366,9 +347,13 @@ function TicketDetail({ id }: { id: number }) {
               <CommentForm ticket={ticket} user={user} />
             </div>
           </Card>
+
+          {isStaff && <HistoryCard ticket={ticket} />}
         </div>
 
         <div className="space-y-4">
+          <WorkflowCard ticket={ticket} user={user} />
+
           {isStaff ? (
             <>
               <RequesterCard ticket={ticket} />

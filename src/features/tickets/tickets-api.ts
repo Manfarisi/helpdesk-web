@@ -7,7 +7,9 @@ import type {
   TicketListResponse,
   TicketPriority,
   TicketStatus,
+  User,
 } from '../../types/api'
+import type { AuditLogEntry } from './history'
 
 export type AssignmentFilter = 'all' | 'mine' | 'unassigned'
 
@@ -56,6 +58,32 @@ export async function createTicket(input: CreateTicketInput): Promise<Ticket> {
   return response.data
 }
 
+export async function claimTicket(id: number): Promise<Ticket> {
+  const response = await api.post<{ data: Ticket }>(`/tickets/${id}/claim`)
+
+  return response.data
+}
+
+export async function assignTicket(id: number, assigneeId: number): Promise<Ticket> {
+  const response = await api.post<{ data: Ticket }>(`/tickets/${id}/assign`, {
+    assignee_id: assigneeId,
+  })
+
+  return response.data
+}
+
+export async function transitionTicket(id: number, status: TicketStatus): Promise<Ticket> {
+  const response = await api.post<{ data: Ticket }>(`/tickets/${id}/transition`, { status })
+
+  return response.data
+}
+
+export async function fetchHistory(ticketId: number): Promise<AuditLogEntry[]> {
+  const response = await api.get<{ data: AuditLogEntry[] }>(`/tickets/${ticketId}/history`)
+
+  return response.data
+}
+
 export async function fetchComments(ticketId: number): Promise<TicketComment[]> {
   const response = await api.get<{ data: TicketComment[] }>(`/tickets/${ticketId}/comments`)
 
@@ -76,6 +104,13 @@ export async function addComment(
 
 export async function fetchCategories(): Promise<Category[]> {
   const response = await api.get<{ data: Category[] }>('/categories')
+
+  return response.data
+}
+
+// Agent dan admin aktif yang bisa jadi penanggung jawab. API hanya mengizinkan staff.
+export async function fetchAssignableUsers(): Promise<User[]> {
+  const response = await api.get<{ data: User[] }>('/agents')
 
   return response.data
 }
